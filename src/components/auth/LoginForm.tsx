@@ -15,8 +15,11 @@ export function LoginForm() {
   // Estado para manejar el loading durante el login
   const [isLoading, setIsLoading] = useState(false);
   
+  // Estado para manejar errores de login
+  const [loginError, setLoginError] = useState<string | null>(null);
+  
   // Obtenemos las funciones de autenticación del contexto
-  const { login, authState } = useAuth();
+  const { login } = useAuth();
 
   // Función que maneja el envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,18 +31,21 @@ export function LoginForm() {
     }
 
     setIsLoading(true); // Activamos el estado de loading
+    setLoginError(null); // Limpiar errores anteriores
 
     try {
       // Intentamos hacer login usando el contexto de autenticación
-      const result = await login({ email, password });
+      const result = await (login as any)(email, password);
       
       if (!result.success) {
-        // Si el login falla, el error se maneja en el contexto
-        console.error('Error en login:', result.error);
+        // Si el login falla, mostrar error al usuario
+        console.error('❌ Login fallido para:', email);
+        setLoginError(result.error || 'Error de autenticación. Verifica tus credenciales.');
       }
       // Si es exitoso, la redirección se maneja automáticamente por el contexto
     } catch (error) {
-      console.error('Error inesperado en login:', error);
+      console.error('💥 Error inesperado en login:', error);
+      setLoginError('Error de conexión. Intenta nuevamente.');
     } finally {
       setIsLoading(false); // Desactivamos el loading al finalizar
     }
@@ -95,9 +101,9 @@ export function LoginForm() {
               </div>
 
               {/* Mostrar error si existe */}
-              {authState.error && (
+              {loginError && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
-                  <p className="text-sm">{authState.error}</p>
+                  <p className="text-sm">{loginError}</p>
                 </div>
               )}
             </CardContent>

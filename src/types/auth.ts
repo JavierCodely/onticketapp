@@ -54,4 +54,12 @@ export interface AuthContextType {
   
   // Función para verificar si el usuario es super administrador
   isSuperAdmin: () => boolean;
+
+  // Métodos seguros para operaciones con RLS
+  secureQuery: <T = any>(
+    table: string, 
+    operation: 'select' | 'insert' | 'update' | 'delete',
+    data?: any,
+    conditions?: any
+  ) => Promise<{ data: T[] | null; error: any }>;
 }
