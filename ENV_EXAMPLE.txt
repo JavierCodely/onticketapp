@@ -1,0 +1,8 @@
+# Copia el contenido de este archivo a un nuevo archivo llamado .env
+
+# Variables de entorno para Supabase
+# URL de tu proyecto Supabase (Project Settings > API)
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+
+# Clave pública/anon de Supabase (Project Settings > API)
+VITE_SUPABASE_ANON_KEY=tu-clave-anonima-aqui

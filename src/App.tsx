@@ -1,11 +1,21 @@
-import { Button } from "@/components/ui/button"
- 
+// Aplicación principal que integra autenticación y rutas protegidas
+
+
+import { AuthProvider } from '@/context/AuthContext';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { Dashboard } from '@/pages/Dashboard';
+
+// Componente principal de la aplicación
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-    </div>
-  )
+    // Proveedor del contexto de autenticación que envuelve toda la app
+    <AuthProvider>
+      {/* Ruta protegida que requiere autenticación para acceder al Dashboard */}
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    </AuthProvider>
+  );
 }
- 
-export default App
+
+export default App;
